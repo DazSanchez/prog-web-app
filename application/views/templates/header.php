@@ -8,6 +8,3 @@
 	<title>Cursos presenciales</title>
 </head>
 <body>
-	<nav class="navbar navbar-dark bg-primary">
-		<span class="navbar-brand mb-0 h1">Home</span>
-	</nav>
