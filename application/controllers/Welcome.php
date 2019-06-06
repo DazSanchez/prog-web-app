@@ -1,14 +1,16 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Welcome extends CI_Controller
+{
 
-	function index() {
-		if(!$this->session->userdata('logged_in')) {
+  function index()
+  {
+    if (!$this->session->userdata('logged_in')) {
       redirect('/auth/login');
+    } else {
+      die('Welcome');
     }
-    
-    die('Welcome');
-	}
+  }
 }
 
 /* End of file welcome.php */

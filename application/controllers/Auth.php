@@ -1,23 +1,26 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Auth extends CI_Controller {
-	function login() {
-    if($this->session->userdata()) redirect('');
+class Auth extends CI_Controller
+{
+  function login()
+  {
+    if ($this->session->userdata('logged_in')) redirect('');
 
     $this->form_validation->set_rules('username', 'Usuario', 'required');
     $this->form_validation->set_rules('password', 'Contraseña', 'required');
 
-    if($this->form_validation->run()) {
+    if ($this->form_validation->run()) {
       $username = $this->input->post('username');
       $enc_password = md5($this->input->post('password'));
       $user_id = $this->user_model->login($username, $enc_password);
 
-      if($user_id) {
+      if ($user_id) {
         $this->session->set_userdata([
           'user_id' => $user_id,
           'username' => $username,
           'logged_in' => TRUE
         ]);
+
         redirect('');
       } else {
         $this->session->set_flashdata('login_failed', TRUE);
@@ -30,14 +33,10 @@ class Auth extends CI_Controller {
     }
   }
 
-  function logout() {
-    if($this->session->userdata()) {
-      $this->session->unset_userdata([
-        'user_id',
-        'username',
-        'logged_in'
-      ]);
-    }
-    redirect('auth/login');
+  function logout()
+  {
+    $this->session->sess_destroy();
+
+    redirect('/auth/login');
   }
 }
