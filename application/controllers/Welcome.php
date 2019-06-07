@@ -5,11 +5,18 @@ class Welcome extends CI_Controller
 
   function index()
   {
-    if (!$this->session->userdata('logged_in')) {
+    if (!is_logged_in()) {
       redirect('/auth/login');
-    } else {
-      die('Welcome');
     }
+
+    $toolbar_data = [
+      'username' => $this->session->userdata('username')
+    ];
+
+    $this->load->view('templates/header');
+    $this->load->view('components/admin_toolbar', $toolbar_data);
+    $this->load->view('templates/sidenav');
+    $this->load->view('templates/footer');
   }
 }
 

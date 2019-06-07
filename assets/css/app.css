@@ -1,7 +1,25 @@
+:root {
+  --sidenav-width: 13.5vw;
+  --navbar-height: 56px;
+}
+
 body {
-	background-color: #eee;
+  background-color: #eee;
 }
 
 .full-height {
-	height: calc(100vh - 56px);
+  height: calc(100vh - var(--navbar-height));
+}
+
+.sidenav {
+  width: var(--sidenav-width);
+  min-height: calc(100vh - var(--navbar-height));
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.page-content {
+  margin-left: var(--sidenav-width);
 }
