@@ -16,10 +16,6 @@ class Users extends CI_Controller
       'per_page' => 15,
     ]);
 
-    $toolbar_data = [
-      'username' => $this->session->userdata('username'),
-    ];
-
     $users_table_data = [
       'columns' => array(
         (object)['label' => 'Id', 'prop' => 'id'],
@@ -31,14 +27,14 @@ class Users extends CI_Controller
 
     $list_data = [
       'toolbar' => $this->load->view('components/users/toolbar', NULL, TRUE),
-      'users_table' => $this->load->view('components/table', $users_table_data, TRUE),
+      'table' => $this->load->view('components/table', $users_table_data, TRUE),
       'pagination' => $this->pagination->create_links()
     ];
 
     $this->load->view('templates/header');
-    $this->load->view('components/admin_toolbar', $toolbar_data);
+    $this->load->view('components/admin/toolbar', get_toolbar_data());
     $this->load->view('templates/sidenav');
-    $this->load->view('users/list', $list_data);
+    $this->load->view('components/list_page', $list_data);
     $this->load->view('templates/footer');
   }
 }
