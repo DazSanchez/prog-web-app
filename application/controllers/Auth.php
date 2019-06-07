@@ -4,7 +4,7 @@ class Auth extends CI_Controller
 {
   function login()
   {
-    if ($this->session->userdata('logged_in')) redirect('');
+    if (is_logged_in()) redirect('');
 
     $this->form_validation->set_rules('username', 'Usuario', 'required');
     $this->form_validation->set_rules('password', 'Contraseña', 'required');
