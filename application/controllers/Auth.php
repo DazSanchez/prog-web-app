@@ -12,13 +12,14 @@ class Auth extends CI_Controller
     if ($this->form_validation->run()) {
       $username = $this->input->post('username');
       $enc_password = md5($this->input->post('password'));
-      $user_id = $this->user_model->login($username, $enc_password);
+      $user = $this->user_model->login($username, $enc_password);
 
-      if ($user_id) {
+      if ($user) {
         $this->session->set_userdata([
-          'user_id' => $user_id,
+          'user_id' => $user->id,
           'username' => $username,
-          'logged_in' => TRUE
+          'logged_in' => TRUE,
+          'role' => $user->role
         ]);
 
         redirect('');

@@ -9,10 +9,15 @@ class User_model extends CI_Model
       'username' => $username,
       'password' => $password
     ];
-    $user = $this->db->get_where('users', $predicate)->row();
+
+    $user = $this->db
+      ->select('*, roles.name as role')
+      ->join('roles', 'users.id_rol = roles.id')
+      ->get_where('users', $predicate)
+      ->row();
 
     if (!empty($user)) {
-      return $user->id;
+      return $user;
     }
     return false;
   }

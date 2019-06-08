@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'form', 'auth', 'toolbar');
+$autoload['helper'] = array('url', 'form', 'auth', 'layout');
 
 /*
 | -------------------------------------------------------------------
@@ -134,5 +134,7 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
   'user_model',
-  'participant_model'
+  'participant_model',
+  'courses_model',
+  'instructors_model'
 );

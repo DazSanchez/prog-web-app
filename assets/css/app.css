@@ -1,6 +1,7 @@
 :root {
   --sidenav-width: 13.5vw;
   --navbar-height: 56px;
+  --error-img-size: 200px;
 }
 
 body {
@@ -18,8 +19,18 @@ body {
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index: 1;
 }
 
 .page-content {
   margin-left: var(--sidenav-width);
+}
+
+.error-img {
+  width: var(--error-img-size);
+  height: var(--error-img-size);
+}
+
+.error-message {
+  color: #aaa;
 }

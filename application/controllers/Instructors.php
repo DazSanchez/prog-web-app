@@ -1,43 +1,42 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Participants extends CI_Controller
+class Instructors extends CI_Controller
 {
   function index()
   {
     if (!is_logged_in()) redirect('/auth/login');
 
-    $participants = $this->participant_model->get_participants();
-
     $this->load->library('pagination');
+
+    $instructors = $this->instructors_model->get_instructors();
 
     $this->pagination->initialize([
       'base_url' => current_url(),
-      'total_rows' => count($participants),
+      'total_rows' => count($instructors),
       'per_page' => 15,
     ]);
 
-    $participants_table_data = [
+    $instructors_table_data = [
       'columns' => array(
         (object)['label' => 'Id', 'prop' => 'id'],
         (object)['label' => 'Nombre', 'prop' => 'name'],
         (object)['label' => 'Apellido paterno', 'prop' => 'first_surname'],
         (object)['label' => 'Apellido materno', 'prop' => 'second_surname'],
         (object)['label' => 'Teléfono', 'prop' => 'phone'],
+        (object)['label' => 'Grado de estudios', 'prop' => 'degree']
       ),
-      'rows' => $participants,
+      'rows' => $instructors,
     ];
 
-    $toolbar_data = ['section_name' => 'participante'];
-
     $toolbar_data = [
-      'section_title' => 'Participantes',
-      'entity_name' => 'participante'
+      'section_title' => 'Instructores',
+      'entity_name' => 'instructor'
     ];
 
     $list_data = [
       'toolbar' => $this->load->view('components/list_toolbar', $toolbar_data, TRUE),
-      'has_rows' => count($participants),
-      'table' => $this->load->view('components/table', $participants_table_data, TRUE),
+      'has_rows' => count($instructors),
+      'table' => $this->load->view('components/table', $instructors_table_data, TRUE),
       'pagination' => $this->pagination->create_links()
     ];
 

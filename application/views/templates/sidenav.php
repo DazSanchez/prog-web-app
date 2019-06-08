@@ -4,11 +4,13 @@ $link = [
 ];
 ?>
 
-<aside class="sidenav">
+<aside class="sidenav shadow-sm">
   <nav class="nav flex-column">
-    <?php echo anchor('/courses', 'Cursos', $link) ?>
-    <?php echo anchor('/instructors', 'Instructores', $link) ?>
-    <?php echo anchor('/participants', 'Participantes', $link) ?>
-    <?php echo anchor('/users', 'Usuarios', $link) ?>
+    <?= anchor('/courses', 'Cursos', $link) ?>
+    <?php if (user_has_role('ADMIN')) : ?>
+      <?= anchor('/instructors', 'Instructores', $link) ?>
+      <?= anchor('/participants', 'Participantes', $link) ?>
+      <?= anchor('/users', 'Usuarios', $link) ?>
+    <?php endif; ?>
   </nav>
 </aside>

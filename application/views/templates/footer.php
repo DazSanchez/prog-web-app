@@ -1,4 +1,5 @@
+  <script src=<?= site_url('/assets/js/bootstrap.bundle.min.js') ?>></script>
+  <script src=<?= site_url('/assets/js/app.js') ?>></script>
+  </body>
 
-	<script src="<?php echo base_url(); ?>assets/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  </html>
