@@ -5,6 +5,7 @@ class Users extends CI_Controller
   function index()
   {
     if (!is_logged_in()) redirect('/auth/login');
+    if (!user_has_role('ADMIN')) redirect('/access_deny');
 
     $this->load->library('pagination');
 
@@ -25,16 +26,19 @@ class Users extends CI_Controller
       'rows' => $users,
     ];
 
+    $toolbar_data = [
+      'section_title' => 'Usuarios',
+      'entity_name' => 'usuario'
+    ];
+
     $list_data = [
-      'toolbar' => $this->load->view('components/users/toolbar', NULL, TRUE),
+      'toolbar' => $this->load->view('components/list_toolbar', $toolbar_data, TRUE),
       'table' => $this->load->view('components/table', $users_table_data, TRUE),
       'pagination' => $this->pagination->create_links()
     ];
 
-    $this->load->view('templates/header');
-    $this->load->view('components/admin/toolbar', get_toolbar_data());
-    $this->load->view('templates/sidenav');
-    $this->load->view('components/list_page', $list_data);
-    $this->load->view('templates/footer');
+    $this->load->view('templates/app_layout', [
+      'content' => $this->load->view('components/list_page', $list_data, TRUE)
+    ]);
   }
 }
