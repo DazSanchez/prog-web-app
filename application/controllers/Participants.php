@@ -2,11 +2,18 @@
 
 class Participants extends CI_Controller
 {
+  function __construct()
+  {
+    parent::__construct();
+    $this->load->model('participants_model');
+  }
+
   function index()
   {
     if (!is_logged_in()) redirect('/auth/login');
+    if (!user_has_role('ADMIN')) redirect('/access_deny');
 
-    $participants = $this->participant_model->get_participants();
+    $participants = $this->participants_model->get_participants();
 
     $this->load->library('pagination');
 

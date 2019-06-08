@@ -2,9 +2,16 @@
 
 class Instructors extends CI_Controller
 {
+  function __construct()
+  {
+    parent::__construct();
+    $this->load->model('instructors_model');
+  }
+
   function index()
   {
     if (!is_logged_in()) redirect('/auth/login');
+    if (!user_has_role('ADMIN')) redirect('/access_deny');
 
     $this->load->library('pagination');
 

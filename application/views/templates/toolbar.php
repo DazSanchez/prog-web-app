@@ -2,7 +2,7 @@
 $userdata = get_userdata();
 ?>
 
-<nav class="navbar navbar-dark bg-primary d-flex justify-content-between">
+<nav class="navbar fixed-top navbar-dark bg-primary d-flex justify-content-between">
   <span class="navbar-brand mb-0 h1">
     Sistema de Inscripciones
   </span>

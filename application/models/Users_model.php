@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class User_model extends CI_Model
+class Users_model extends CI_Model
 {
 
   public function login($username, $password)
@@ -30,5 +30,11 @@ class User_model extends CI_Model
       ->join('roles', 'users.id_rol = roles.id');
 
     return $this->db->get()->result();
+  }
+
+  public function create_user($user)
+  {
+    $this->db->insert('users', $user);
+    return $this->db->error();
   }
 }
