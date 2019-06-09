@@ -2,8 +2,16 @@
 
 class Participants_model extends CI_Model
 {
-  public function get_participants()
+  public function get_participants($per_page, $offset)
   {
-    return $this->db->get('participants')->result();
+    return $this->db
+      ->limit($per_page, $offset)
+      ->get('participants')
+      ->result();
+  }
+
+  public function count_all_participants()
+  {
+    return $this->db->count_all('participants');
   }
 }

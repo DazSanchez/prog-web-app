@@ -3,7 +3,22 @@
     <?= $toolbar ?>
   </div>
 
-  <div class="mx-3 list-page-content">
+  <div class="list-page-content mx-3">
+    <?php if ($this->session->flashdata('create_success')) : ?>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="far fa-check-circle"></i>
+        <span class="font-weight-bold">
+          <?= $success_message['title'] ?>
+        </span>
+        <?php if (isset($success_message['message'])) : ?>
+          <?= $success_message['message'] ?>
+        <?php endif; ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <?php endif; ?>
+
     <div class="card shadow-sm">
       <div class="card-body">
         <?php if (isset($has_rows) && !$has_rows) : ?>
@@ -19,5 +34,4 @@
       </div>
     </div>
   </div>
-
 </div>

@@ -24,7 +24,7 @@ $role = [
   'class' => 'form-control'
 ];
 $submit = [
-  'class' => 'btn btn-primary',
+  'class' => 'btn btn-primary js-save-btn',
   'type' => 'submit',
   'content' => '<i class="far fa-save"></i> Guardar'
 ];
@@ -33,7 +33,7 @@ $cancel = [
 ];
 ?>
 
-<?= form_open(current_url()) ?>
+<?= form_open(current_url(), ['class' => 'js-form']) ?>
 <div class="d-flex">
   <div class="form-group mr-3">
     <?= form_label('Usuario', $username['id']) ?>

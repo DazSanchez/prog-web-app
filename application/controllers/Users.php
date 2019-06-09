@@ -15,12 +15,14 @@ class Users extends CI_Controller
 
     $this->load->library('pagination');
 
-    $users = $this->users_model->get_users();
+    $per_page = $this->input->get('per_page', TRUE) or 0;
+
+    $users = $this->users_model->get_users(PAGINATION_PER_PAGE, $per_page);
 
     $this->pagination->initialize([
       'base_url' => current_url(),
-      'total_rows' => count($users),
-      'per_page' => 15,
+      'total_rows' => $this->users_model->count_all_users(),
+      'per_page' => PAGINATION_PER_PAGE,
     ]);
 
     $users_table_data = [
@@ -40,7 +42,11 @@ class Users extends CI_Controller
     $list_data = [
       'toolbar' => $this->load->view('components/list_toolbar', $toolbar_data, TRUE),
       'table' => $this->load->view('components/table', $users_table_data, TRUE),
-      'pagination' => $this->pagination->create_links()
+      'pagination' => $this->pagination->create_links(),
+      'success_message' => [
+        'title' => 'Se ha creado al usuario.',
+        'message' => 'Ahora puede iniciar sesión en el sistema.'
+      ]
     ];
 
     $this->load->view('templates/app_layout', [
@@ -58,8 +64,9 @@ class Users extends CI_Controller
 
       $db_error = $this->users_model->create_user($user);
 
-      if (!empty($db_error)) {
+      if (!$db_error['message']) {
         $this->session->set_flashdata('create_success', TRUE);
+        redirect('/users');
       } else {
         $this->session->set_flashdata('create_error', TRUE);
       }
@@ -87,7 +94,7 @@ class Users extends CI_Controller
     ];
 
     $this->load->view('templates/app_layout', [
-      'content' => $this->load->view('users/create', $create_data, TRUE)
+      'content' => $this->load->view('components/create_page', $create_data, TRUE)
     ]);
   }
 }

@@ -6,6 +6,7 @@ class Instructors extends CI_Controller
   {
     parent::__construct();
     $this->load->model('instructors_model');
+    $this->load->helper('degree');
   }
 
   function index()
@@ -15,12 +16,14 @@ class Instructors extends CI_Controller
 
     $this->load->library('pagination');
 
-    $instructors = $this->instructors_model->get_instructors();
+    $per_page = $this->input->get('per_page') or 0;
+
+    $instructors = $this->instructors_model->get_instructors(PAGINATION_PER_PAGE, $per_page);
 
     $this->pagination->initialize([
       'base_url' => current_url(),
-      'total_rows' => count($instructors),
-      'per_page' => 15,
+      'total_rows' => $this->instructors_model->count_all_instructors(),
+      'per_page' => PAGINATION_PER_PAGE,
     ]);
 
     $instructors_table_data = [
@@ -32,7 +35,10 @@ class Instructors extends CI_Controller
         (object)['label' => 'Teléfono', 'prop' => 'phone'],
         (object)['label' => 'Grado de estudios', 'prop' => 'degree']
       ),
-      'rows' => $instructors,
+      'rows' => array_map(function ($instructor) {
+        $instructor->degree = get_degree($instructor->degree);
+        return $instructor;
+      }, $instructors),
     ];
 
     $toolbar_data = [
@@ -44,11 +50,54 @@ class Instructors extends CI_Controller
       'toolbar' => $this->load->view('components/list_toolbar', $toolbar_data, TRUE),
       'has_rows' => count($instructors),
       'table' => $this->load->view('components/table', $instructors_table_data, TRUE),
-      'pagination' => $this->pagination->create_links()
+      'pagination' => $this->pagination->create_links(),
+      'success_message' => [
+        'title' => 'Se ha creado al instructor.'
+      ]
     ];
 
     $this->load->view('templates/app_layout', [
       'content' => $this->load->view('components/list_page', $list_data, TRUE)
+    ]);
+  }
+
+  function create()
+  {
+    if ($this->form_validation->run('create_instructor')) {
+      $instructor = $this->input->post();
+
+      $db_error = $this->instructors_model->create_instructor($instructor);
+
+      if (!empty($db_error)) {
+        $this->session->set_flashdata('create_success', TRUE);
+        redirect('/instructors');
+      } else {
+        $this->session->set_flashdata('create_error', TRUE);
+      }
+    }
+
+    $has_errors = count($this->form_validation->error_array());
+
+    $form_data = [
+      'has_errors' => $has_errors
+    ];
+
+    $create_data = [
+      'toolbar' => $this->load->view(
+        'components/title_toolbar',
+        ['title' => 'Agregar instructor'],
+        TRUE
+      ),
+      'form' => $this->load->view(
+        'components/instructors/create-form',
+        $form_data,
+        TRUE
+      ),
+      'has_errors' => $has_errors
+    ];
+
+    $this->load->view('templates/app_layout', [
+      'content' => $this->load->view('components/create_page', $create_data, TRUE)
     ]);
   }
 }
