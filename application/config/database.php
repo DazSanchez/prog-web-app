@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -74,6 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	"dsn" => "postgres://spevbdzi:TY79uTtQyHxPWQ63nK7vu8OCMvdCuQ1E@isilo.db.elephantsql.com:5432/spevbdzi",
-	"dbdriver" => "postgre"
+  "dsn" => "postgres://spevbdzi:TY79uTtQyHxPWQ63nK7vu8OCMvdCuQ1E@isilo.db.elephantsql.com:5432/spevbdzi",
+  "dbdriver" => "postgre",
+  "db_debug" => FALSE
 );

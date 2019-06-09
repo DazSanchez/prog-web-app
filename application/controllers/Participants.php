@@ -2,18 +2,27 @@
 
 class Participants extends CI_Controller
 {
+  function __construct()
+  {
+    parent::__construct();
+    $this->load->model('participants_model');
+  }
+
   function index()
   {
     if (!is_logged_in()) redirect('/auth/login');
+    if (!user_has_role('ADMIN')) redirect('/access_deny');
 
-    $participants = $this->participant_model->get_participants();
+    $per_page = $this->input->get('per_page', TRUE) or 0;
+
+    $participants = $this->participants_model->get_participants(PAGINATION_PER_PAGE, $per_page);
 
     $this->load->library('pagination');
 
     $this->pagination->initialize([
       'base_url' => current_url(),
-      'total_rows' => count($participants),
-      'per_page' => 15,
+      'total_rows' => $this->participants_model->count_all_participants(),
+      'per_page' => PAGINATION_PER_PAGE,
     ]);
 
     $participants_table_data = [

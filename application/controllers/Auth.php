@@ -2,17 +2,20 @@
 
 class Auth extends CI_Controller
 {
+  function __construct()
+  {
+    parent::__construct();
+    $this->load->model('users_model');
+  }
+
   function login()
   {
     if (is_logged_in()) redirect('');
 
-    $this->form_validation->set_rules('username', 'Usuario', 'required');
-    $this->form_validation->set_rules('password', 'Contraseña', 'required');
-
-    if ($this->form_validation->run()) {
+    if ($this->form_validation->run('login')) {
       $username = $this->input->post('username');
       $enc_password = md5($this->input->post('password'));
-      $user = $this->user_model->login($username, $enc_password);
+      $user = $this->users_model->login($username, $enc_password);
 
       if ($user) {
         $this->session->set_userdata([

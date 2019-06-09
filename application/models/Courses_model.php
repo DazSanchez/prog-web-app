@@ -2,7 +2,7 @@
 
 class Courses_model extends CI_Model
 {
-  function get_courses()
+  function get_courses($per_page, $offset)
   {
     $colums =
       'courses.name as course_name,' .
@@ -21,6 +21,7 @@ class Courses_model extends CI_Model
       ->select($colums)
       ->from('courses')
       ->join('instructors', 'courses.id_instructor = instructors.id')
+      ->limit($per_page, $offset)
       ->get()
       ->result();
 
@@ -32,5 +33,10 @@ class Courses_model extends CI_Model
     }, $results);
 
     return $mapped_results;
+  }
+
+  public function count_all_courses()
+  {
+    return $this->db->count_all('courses');
   }
 }
